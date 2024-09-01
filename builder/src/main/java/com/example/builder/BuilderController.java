@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import jakarta.validation.Valid;
+
 
 
 @RestController
@@ -21,7 +23,7 @@ public class BuilderController {
     }
 
     @GetMapping("/build")
-    public ResponseDTO getBuild(@RequestBody BuilderDTO param) {
+    public ResponseDTO getBuild(@Valid @RequestBody BuilderDTO param) {
         //try
         double imposto;
         if (param == null) {
