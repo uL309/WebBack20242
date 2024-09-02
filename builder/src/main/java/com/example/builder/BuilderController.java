@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 
@@ -17,11 +18,15 @@ public class BuilderController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Tag(name = "Index", description = "The Builder API index")
+    @Operation(summary = "Get a greeting", description = "Get a greeting")
     @GetMapping("/")
     public String index() {
         return "Greetings from Spring Boot!";
     }
 
+    @Tag(name = "Builder", description = "The Builder API")
+    @Operation(summary = "The BFF", description = "Frontend and selector for the Builder API")
     @GetMapping("/build")
     public ResponseDTO getBuild(@Valid @RequestBody BuilderDTO param) {
         
