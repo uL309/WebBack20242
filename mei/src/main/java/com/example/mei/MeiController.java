@@ -14,10 +14,10 @@ public class MeiController {
     @Tag(name = "MEI", description = "This API process MEI taxes")
     @GetMapping("/mei")
     public ResponseDTO getImposto(@RequestParam(name = "icms") boolean icms, @RequestParam(name = "iss") boolean iss) {
-        double imposto = 0;
+        float imposto = 0;
         //salário mínimo deve vir do banco se possivel ou alguma variavel que sejá facilmente editavel
-        double salMinimo = 1100;
-        imposto = salMinimo * 0.05;
+        float salMinimo = 1100;
+        imposto = (float) (salMinimo * 0.05);
         if (icms) {
             imposto += 1;
         }

@@ -30,50 +30,50 @@ public class BuilderController {
     @GetMapping("/build")
     public ResponseDTO getBuild(@Valid @RequestBody BuilderDTO param) {
         
-        double imposto;
+        
         if (param == null) {
             return new ResponseDTO();
         } else if(param.getRole().equals("mei")){
-            String url=UriComponentsBuilder.fromHttpUrl("http://192.168.0.1/mei")
+            String url=UriComponentsBuilder.fromHttpUrl("http://localhost:8081/mei")
                 .queryParam("icms", param.getIcms())
                 .queryParam("iss", param.getIss())
                 .toUriString();
-            imposto = restTemplate.getForObject(url, Double.class);
-            return new ResponseDTO(param.getName(), param.getRole(), param.getFaturamento(), imposto);
+                ImpostoResponse imposto = restTemplate.getForObject(url, ImpostoResponse.class);
+            return new ResponseDTO(param.getName(), param.getRole(), param.getFaturamento(), imposto.getImposto());
         } else if(param.getRole().equals("simples")){
-            Builder builder = new Builder(param.getName(), param.getRole(), param.getFaturamento());
+            ResponseDTO builder = new ResponseDTO(param.getName(), param.getRole(), param.getFaturamento());
             String url = UriComponentsBuilder.fromHttpUrl("http://192.168.0.2/simples/anexo")
                     .queryParam("faturamento", param.getFaturamento())
                     .toUriString();
-                    imposto = restTemplate.getForObject(url, Double.class);
-                    builder.addImposto(imposto);
+                    ImpostoResponse imposto = restTemplate.getForObject(url, ImpostoResponse.class);
+                    builder.setImposto(imposto.getImposto());
             if (param.getIcms()==true){
                 url = UriComponentsBuilder.fromHttpUrl("http://192.168.0.2/simples/icms")
                     .queryParam("faturamento", param.getFaturamento())
                     .toUriString();
-                imposto = restTemplate.getForObject(url, Double.class);
-                builder.addImposto(imposto);
+                imposto = restTemplate.getForObject(url, ImpostoResponse.class);
+                builder.setImposto(imposto.getImposto());
             }
             if (param.getCofins()==true){
                 url = UriComponentsBuilder.fromHttpUrl("http://192.168.0.2/simples/cofins")
                     .queryParam("faturamento", param.getFaturamento())
                     .toUriString();
-                imposto = restTemplate.getForObject(url, Double.class);
-                builder.addImposto(imposto);
+                imposto = restTemplate.getForObject(url, ImpostoResponse.class);
+                builder.setImposto(imposto.getImposto());
             }
             if (param.getCsll()==true){
                 url = UriComponentsBuilder.fromHttpUrl("http://192.168.0.2/simples/csll")
                     .queryParam("faturamento", param.getFaturamento())
                     .toUriString();
-                imposto = restTemplate.getForObject(url, Double.class);
-                builder.addImposto(imposto);
+                imposto = restTemplate.getForObject(url, ImpostoResponse.class);
+                builder.setImposto(imposto.getImposto());
             }
             if (param.getPis()==true){
                 url = UriComponentsBuilder.fromHttpUrl("http:////192.168.0.2/simples/pis")
                     .queryParam("faturamento", param.getFaturamento())
                     .toUriString();
-                imposto = restTemplate.getForObject(url, Double.class);
-                builder.addImposto(imposto);
+                imposto = restTemplate.getForObject(url, ImpostoResponse.class);
+                builder.setImposto(imposto.getImposto());
             }
             return new ResponseDTO(builder.getName(), builder.getRole(), builder.getFaturamento(), builder.getImposto());
             

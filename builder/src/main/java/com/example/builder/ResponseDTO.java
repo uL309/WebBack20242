@@ -3,14 +3,20 @@ package com.example.builder;
 public class ResponseDTO {
     private String name;
     private String role;
-    private Double faturamento;
-    private Double imposto;
+    private float faturamento;
+    private float imposto;
 
-    public ResponseDTO(String name, String role, Double faturamento, Double imposto) {
+    public ResponseDTO(String name, String role, float faturamento, float imposto) {
         this.name = name;
         this.role = role;
         this.faturamento = faturamento;
         this.imposto = imposto;
+    }
+
+    public ResponseDTO(String name, String role, float faturamento) {
+        this.name = name;
+        this.role = role;
+        this.faturamento = faturamento;
     }
 
     public ResponseDTO() {
@@ -24,19 +30,19 @@ public class ResponseDTO {
         return role;
     }
 
-    public Double getFaturamento() {
+    public float getFaturamento() {
         return faturamento;
     }
 
-    public Double getImposto() {
+    public float getImposto() {
         return imposto;
     }
 
-    public void setImposto(double imposto) {
+    public void setImposto(float imposto) {
         this.imposto = imposto;
     }
 
-    public void setFaturamento(Double faturamento) {
+    public void setFaturamento(float faturamento) {
         this.faturamento = faturamento;
     }
     

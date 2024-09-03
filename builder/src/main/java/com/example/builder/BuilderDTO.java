@@ -4,7 +4,7 @@ public class BuilderDTO {
     private int id;
     private String name;
     private String role;
-    private Double faturamento;
+    private float faturamento;
     private boolean icms;
     private boolean iss;
     private int anexo;
@@ -13,7 +13,7 @@ public class BuilderDTO {
     private boolean pis;
 
 
-    public BuilderDTO(int id,String name, String role, Double faturamento, boolean icms, boolean iss, int anexo, boolean cofins, boolean csll, boolean pis) {
+    public BuilderDTO(int id,String name, String role, float faturamento, boolean icms, boolean iss, int anexo, boolean cofins, boolean csll, boolean pis) {
         this.id = id;
         this.name = name;
         this.role = role;
@@ -38,7 +38,7 @@ public class BuilderDTO {
         return role;
     }
 
-    public Double getFaturamento() {
+    public float getFaturamento() {
         return faturamento;
     }
 
