@@ -13,4 +13,5 @@ public class UsuarioDTO {
     @NotBlank
     private String username;
     private String password;
+    private String role;
 }

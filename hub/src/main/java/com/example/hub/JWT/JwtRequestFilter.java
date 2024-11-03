@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletResponseWrapper;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 
@@ -19,6 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
 
+@Order(2)
 public class JwtRequestFilter extends OncePerRequestFilter {
 
 
@@ -28,6 +30,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
+        if (request.getRequestURI().startsWith("/eureka")) {
+            chain.doFilter(request, response);
+            return;
+        }   
+
         final String authorizationHeader = request.getHeader("Authorization");
 
         String jwt = null;
