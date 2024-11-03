@@ -29,7 +29,7 @@ public class BuilderController {
     @Operation(summary = "The BFF", description = "Frontend and selector for the Builder API")
     @GetMapping("/build")
     public ResponseDTO getBuild(@Valid @RequestBody BuilderDTO param) {
-        
+        //usar rabbitmq para autenticação
         
         if (param == null) {
             return new ResponseDTO();
@@ -52,28 +52,28 @@ public class BuilderController {
                     .queryParam("faturamento", param.getFaturamento())
                     .toUriString();
                 imposto = restTemplate.getForObject(url, ImpostoResponse.class);
-                builder.setImposto(imposto.getImposto());
+                builder.addImposto(imposto.getImposto());
             }
             if (param.getCofins()==true){
                 url = UriComponentsBuilder.fromHttpUrl("http://192.168.0.2/simples/cofins")
                     .queryParam("faturamento", param.getFaturamento())
                     .toUriString();
                 imposto = restTemplate.getForObject(url, ImpostoResponse.class);
-                builder.setImposto(imposto.getImposto());
+                builder.addImposto(imposto.getImposto());
             }
             if (param.getCsll()==true){
                 url = UriComponentsBuilder.fromHttpUrl("http://192.168.0.2/simples/csll")
                     .queryParam("faturamento", param.getFaturamento())
                     .toUriString();
                 imposto = restTemplate.getForObject(url, ImpostoResponse.class);
-                builder.setImposto(imposto.getImposto());
+                builder.addImposto(imposto.getImposto());
             }
             if (param.getPis()==true){
                 url = UriComponentsBuilder.fromHttpUrl("http:////192.168.0.2/simples/pis")
                     .queryParam("faturamento", param.getFaturamento())
                     .toUriString();
                 imposto = restTemplate.getForObject(url, ImpostoResponse.class);
-                builder.setImposto(imposto.getImposto());
+                builder.addImposto(imposto.getImposto());
             }
             return new ResponseDTO(builder.getName(), builder.getRole(), builder.getFaturamento(), builder.getImposto());
             
