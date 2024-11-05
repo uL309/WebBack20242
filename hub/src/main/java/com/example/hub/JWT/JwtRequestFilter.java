@@ -13,19 +13,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-
 import java.io.IOException;
 import java.security.Key;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
-
 @Order(2)
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-
     @Value("${jwt.secret}")
-    private static String JWT_SECRET;
+    private String JWT_SECRET;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -33,7 +30,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (request.getRequestURI().startsWith("/eureka")) {
             chain.doFilter(request, response);
             return;
-        }   
+        }
 
         final String authorizationHeader = request.getHeader("Authorization");
 

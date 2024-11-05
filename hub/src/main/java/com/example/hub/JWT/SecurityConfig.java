@@ -19,9 +19,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(requests -> requests.requestMatchers("/login").permitAll()
-                        .requestMatchers("/eureka/**").permitAll()
-                        .anyRequest().authenticated())
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/usuario").authenticated()
+                        .anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.addFilterBefore(new JwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
