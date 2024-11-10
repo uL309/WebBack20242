@@ -31,19 +31,23 @@ public class BuilderController {
     @Operation(summary = "The BFF", description = "Frontend and selector for the Builder API")
     @GetMapping("/build")
     public ResponseDTO getBuild(@Valid @RequestBody BuilderDTO param) {
-        //usar rabbitmq para autenticação
         
-        if(param.getRole().equals("mei")){
+        UsuarioDTO user= restTemplate.getForObject("http://localhost:8080/usuarios/{id}", UsuarioDTO.class);
+
+        //usar rabbitmq para autenticação
+
+        if(user.getRole().equals("mei")){
             String url=UriComponentsBuilder.fromHttpUrl("http://mei/mei")
                 .queryParam("icms", param.getIcms())
                 .queryParam("iss", param.getIss())
                 .toUriString();
                 ImpostoResponse imposto = restTemplate.getForObject(url, ImpostoResponse.class);
-            return new ResponseDTO(param.getName(), param.getRole(), param.getFaturamento(), imposto.getImposto());
-        } else if(param.getRole().equals("simples")){
-            ResponseDTO builder = new ResponseDTO(param.getName(), param.getRole(), param.getFaturamento());
-            String url = UriComponentsBuilder.fromHttpUrl("http://renda/simples")
+            return new ResponseDTO(user.getName(), user.getRole(), param.getFaturamento(), imposto.getImposto());
+        } else if(user.getRole().equals("simples")){
+            ResponseDTO builder = new ResponseDTO(user.getName(), user.getRole(), param.getFaturamento());
+            String url = UriComponentsBuilder.fromHttpUrl("http://irenda/renda")
                     .queryParam("faturamento", param.getFaturamento())
+                    .queryParam("anexo", param.getAnexo())
                     .toUriString();
                     ImpostoResponse imposto = restTemplate.getForObject(url, ImpostoResponse.class);
                     builder.setImposto(imposto.getImposto());

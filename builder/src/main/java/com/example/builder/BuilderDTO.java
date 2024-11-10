@@ -7,10 +7,6 @@ public class BuilderDTO {
     @NotNull(message = "O faturamento não pode ser nulo.")
     private int id;
     @NotNull(message = "O faturamento não pode ser nulo.")
-    private String name;
-    @NotNull(message = "O faturamento não pode ser nulo.")
-    private String role;
-    @NotNull(message = "O faturamento não pode ser nulo.")
     @DecimalMin(value = "0.01", inclusive = true, message = "O faturamento deve ser maior que zero.")
     private float faturamento;
     private boolean icms;
@@ -22,10 +18,8 @@ public class BuilderDTO {
     private boolean pis;
 
 
-    public BuilderDTO(int id,String name, String role, float faturamento, boolean icms, boolean iss, int anexo, boolean cofins, boolean csll, boolean pis) {
+    public BuilderDTO(int id, float faturamento, boolean icms, boolean iss, int anexo, boolean cofins, boolean csll, boolean pis) {
         this.id = id;
-        this.name = name;
-        this.role = role;
         this.faturamento = faturamento;
         this.icms = icms;
         this.iss = iss;
@@ -37,14 +31,6 @@ public class BuilderDTO {
 
     public int getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getRole() {
-        return role;
     }
 
     public float getFaturamento() {
