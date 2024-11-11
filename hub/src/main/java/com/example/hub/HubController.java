@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -29,12 +30,20 @@ public class HubController {
     private ModelMapper modelMapper = new ModelMapper();;
 
     @Transactional
-    @PostMapping("/usuario")
-    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/criar")
     public ResponseEntity<UsuarioDTO> salvar(@Valid @RequestBody UsuarioDTO usuarioDTO) {
         Usuario usuario = this.modelMapper.map(usuarioDTO, Usuario.class);
         usuarioService.salvar(usuario);
         return new ResponseEntity<UsuarioDTO>(usuarioDTO, HttpStatus.CREATED);
+    }
+
+    @Transactional
+    @PutMapping("/usuario")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<UsuarioDTO> atualizar(@Valid @RequestBody UsuarioDTO usuarioDTO) {
+        Usuario usuario = this.modelMapper.map(usuarioDTO, Usuario.class);
+        usuarioService.salvar(usuario);
+        return new ResponseEntity<UsuarioDTO>(usuarioDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/usuario")
