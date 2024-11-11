@@ -1,4 +1,4 @@
-package com.example.mei;
+package com.example.irenda;
 
 public class ResponseDTO {
     private double imposto;
@@ -13,5 +13,8 @@ public class ResponseDTO {
 
     public void setImposto(double imposto) {
         this.imposto = imposto;
+    }
+    public ResponseDTO(){
+        
     }
 }

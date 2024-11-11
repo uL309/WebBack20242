@@ -1,4 +1,4 @@
-package com.example.mei;
+package com.example.cofins;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

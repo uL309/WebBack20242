@@ -1,9 +1,9 @@
 package com.example.hub.data;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
+import java.util.List;
 
-import java.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class usuarioService {
@@ -26,6 +26,6 @@ public class usuarioService {
     public Usuario buscarPorId(Integer id) {
         return usuarioRepository.findById(id).orElse(null);
     }
-
+    
 
 }
