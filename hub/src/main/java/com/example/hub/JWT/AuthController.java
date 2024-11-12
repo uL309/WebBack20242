@@ -7,7 +7,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
+import org.springframework.http.ResponseEntity;
 
 import com.example.hub.data.*;
 
@@ -26,20 +26,20 @@ public class AuthController {
     private int jwtExpirationMs = 86400000; // 1 dia
 
     @PostMapping("/login")
-    public String authenticateUser(@RequestBody UsuarioDTO authRequest) {
+    public ResponseEntity<String> authenticateUser(@RequestBody UsuarioDTO authRequest) {
         List<Usuario> users = usuarioService.listar();
         for (Usuario user : users) {
             if (authRequest.getUsername().equals(user.getUsername()) && authRequest.getPassword().equals(user.getPassword())) {
                 //adicionar aqui rabitmq, com a data de expiração do token
-                return Jwts.builder()
+                return ResponseEntity.ok(Jwts.builder()
                         .setSubject(authRequest.getUsername())
                         .setIssuedAt(new Date())
                         .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                         .signWith(new SecretKeySpec(jwtSecret.getBytes(), SignatureAlgorithm.HS512.getJcaName()), SignatureAlgorithm.HS512)
-                        .compact();
+                        .compact());
             }
         }
-        return "Invalid username or password";
+        return ResponseEntity.status(401).body("Invalid username or password");
     }
 
 }
