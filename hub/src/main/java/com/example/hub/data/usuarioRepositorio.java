@@ -5,4 +5,9 @@ import org.springframework.data.jpa.repository.*;
 
 
 @Repository
-public interface usuarioRepositorio extends JpaRepository<Usuario, Integer> {}
+public interface usuarioRepositorio extends JpaRepository<Usuario, Integer> {
+    static Usuario findByUsername(String username) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByUsername'");
+    }
+}
