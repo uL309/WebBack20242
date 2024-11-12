@@ -17,4 +17,8 @@ public class UsuarioDTO {
         return role;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
 }
