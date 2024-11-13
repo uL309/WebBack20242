@@ -1,8 +1,11 @@
 package com.example.builder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -29,11 +32,17 @@ public class BuilderController {
 
     @Tag(name = "Builder", description = "The Builder API")
     @Operation(summary = "The BFF", description = "Frontend and selector for the Builder API")
-    @GetMapping("/build")
+    @PostMapping("/build")
     public ResponseDTO getBuild(@Valid @RequestBody BuilderDTO param) {
-        
-        UsuarioDTO user= restTemplate.getForObject("http://localhost:8080/usuarios/{id}", UsuarioDTO.class);
+        Logger logger = LoggerFactory.getLogger(BuilderController.class);
 
+        logger.info("Iniciando o serviço de construção de impostos");
+
+
+        UsuarioDTO user = UsuarioClient.buscarPorId(param.getId());
+
+        logger.info("Usuário pego do serviço");
+        logger.info("Usuário: "+user.getName());
         //usar rabbitmq para autenticação
 
         if(user.getRole().equals("mei")){
