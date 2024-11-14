@@ -8,10 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface UsuarioClient {
 
     @GetMapping("/usuarios/{id}")
-    static
-    UsuarioDTO buscarPorId(@PathVariable int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscarPorId'");
-    }
+    UsuarioDTO buscarPorId(@PathVariable("id") Integer id);
 }
 

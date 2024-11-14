@@ -23,6 +23,9 @@ public class BuilderController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private UsuarioClient usuarioClient;
+
     @Tag(name = "Index", description = "The Builder API index")
     @Operation(summary = "Get a greeting", description = "Get a greeting")
     @GetMapping("/")
@@ -37,22 +40,22 @@ public class BuilderController {
         Logger logger = LoggerFactory.getLogger(BuilderController.class);
 
         logger.info("Iniciando o serviço de construção de impostos");
+        logger.info(String.valueOf(param.getId()));
 
-
-        UsuarioDTO user = UsuarioClient.buscarPorId(param.getId());
+        UsuarioDTO user = usuarioClient.buscarPorId(param.getId());
 
         logger.info("Usuário pego do serviço");
         logger.info("Usuário: "+user.getName());
         //usar rabbitmq para autenticação
 
-        if(user.getRole().equals("mei")){
+        if(user.getRole().equals("MEI")){
             String url=UriComponentsBuilder.fromHttpUrl("http://mei/mei")
                 .queryParam("icms", param.getIcms())
                 .queryParam("iss", param.getIss())
                 .toUriString();
                 ImpostoResponse imposto = restTemplate.getForObject(url, ImpostoResponse.class);
             return new ResponseDTO(user.getName(), user.getRole(), param.getFaturamento(), imposto.getImposto());
-        } else if(user.getRole().equals("simples")){
+        } else if(user.getRole().equals("Simples")){
             ResponseDTO builder = new ResponseDTO(user.getName(), user.getRole(), param.getFaturamento());
             String url = UriComponentsBuilder.fromHttpUrl("http://irenda/renda")
                     .queryParam("faturamento", param.getFaturamento())

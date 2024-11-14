@@ -22,10 +22,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
     
-        logger.info("Iniciando o filtro de JWT");
-    
         if (request.getRequestURI().startsWith("/eureka") || request.getRequestURI().startsWith("/criar") || request.getRequestURI().startsWith("/login")) {
-            logger.info("URI começa com /eureka, ignorando autenticação JWT");
             chain.doFilter(request, response);
             return;
         }
@@ -34,7 +31,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String jwt = authorizationHeader.substring(7);
-            logger.info("Token JWT recebido: {}", jwt);
     
             try {
                 Claims claims = Jwts.parserBuilder()
@@ -43,15 +39,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         .parseClaimsJws(jwt)
                         .getBody();
     
-                logger.info("Token JWT válido, claims extraídas: {}", claims);
                 request.setAttribute("claims", claims);
             } catch (JwtException e) {
-                logger.error("Erro ao validar JWT", e);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token inválido ou expirado");
                 return;
             }
-        } else {
-            logger.warn("Cabeçalho de autorização não presente ou formato incorreto");
         }
     
         chain.doFilter(request, response);
