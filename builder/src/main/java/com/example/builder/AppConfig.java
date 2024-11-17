@@ -1,5 +1,6 @@
 package com.example.builder;
 
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.commons.util.InetUtils;
 import org.springframework.cloud.commons.util.InetUtilsProperties;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 public class AppConfig {
 
     @Bean
+    @LoadBalanced
     RestTemplate restTemplate() {
         return new RestTemplate();
     }

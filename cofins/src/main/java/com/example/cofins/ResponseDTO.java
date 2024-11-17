@@ -1,4 +1,4 @@
-package com.example.mei;
+package com.example.cofins;
 
 public class ResponseDTO {
     private double imposto;

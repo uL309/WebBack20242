@@ -23,7 +23,7 @@ public class SecurityConfig {
                         .requestMatchers("/usuario").authenticated()
                         .anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
+                http.headers(headers -> headers.frameOptions().disable());
         http.addFilterBefore(new JwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

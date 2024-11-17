@@ -154,7 +154,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
-	</dependencies>
+ </dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

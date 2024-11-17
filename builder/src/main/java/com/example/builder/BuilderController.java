@@ -1,8 +1,11 @@
 package com.example.builder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -20,6 +23,9 @@ public class BuilderController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private UsuarioClient usuarioClient;
+
     @Tag(name = "Index", description = "The Builder API index")
     @Operation(summary = "Get a greeting", description = "Get a greeting")
     @GetMapping("/")
@@ -29,21 +35,27 @@ public class BuilderController {
 
     @Tag(name = "Builder", description = "The Builder API")
     @Operation(summary = "The BFF", description = "Frontend and selector for the Builder API")
-    @GetMapping("/build")
+    @PostMapping("/build")
     public ResponseDTO getBuild(@Valid @RequestBody BuilderDTO param) {
-        
-        UsuarioDTO user= restTemplate.getForObject("http://localhost:8080/usuarios/{id}", UsuarioDTO.class);
+        Logger logger = LoggerFactory.getLogger(BuilderController.class);
 
+        logger.info("Iniciando o serviço de construção de impostos");
+        logger.info(String.valueOf(param.getId()));
+
+        UsuarioDTO user = usuarioClient.buscarPorId(param.getId());
+
+        logger.info("Usuário pego do serviço");
+        logger.info("Usuário: "+user.getName());
         //usar rabbitmq para autenticação
 
-        if(user.getRole().equals("mei")){
+        if(user.getRole().equals("MEI")){
             String url=UriComponentsBuilder.fromHttpUrl("http://mei/mei")
                 .queryParam("icms", param.getIcms())
                 .queryParam("iss", param.getIss())
                 .toUriString();
                 ImpostoResponse imposto = restTemplate.getForObject(url, ImpostoResponse.class);
             return new ResponseDTO(user.getName(), user.getRole(), param.getFaturamento(), imposto.getImposto());
-        } else if(user.getRole().equals("simples")){
+        } else if(user.getRole().equals("Simples")){
             ResponseDTO builder = new ResponseDTO(user.getName(), user.getRole(), param.getFaturamento());
             String url = UriComponentsBuilder.fromHttpUrl("http://irenda/renda")
                     .queryParam("faturamento", param.getFaturamento())
