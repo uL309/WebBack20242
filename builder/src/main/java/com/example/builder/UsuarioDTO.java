@@ -9,11 +9,11 @@ public class UsuarioDTO {
     private String password;
     private String role;
 
-    String getName() {
+    public String getName() {
         return username;
     }
 
-    String getRole() {
+    public String getRole() {
         return role;
     }
 

@@ -43,7 +43,7 @@ public class ResponseDTO {
     }
 
     public void addImposto(float imposto) {
-        this.imposto =+ imposto;
+        this.imposto = imposto + this.imposto;
     }
 
     public void setFaturamento(float faturamento) {
