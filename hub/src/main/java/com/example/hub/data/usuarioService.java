@@ -26,6 +26,13 @@ public class usuarioService {
     public Usuario buscarPorId(Integer id) {
         return usuarioRepository.findById(id).orElse(null);
     }
-    
 
+    public Usuario atualizar(Usuario usuario) {
+        if (usuarioRepository.existsById(usuario.getId())) {
+            return usuarioRepository.saveAndFlush(usuario);
+        } else {
+            throw new RuntimeException("Usuário não encontrado");
+        }
+    }
+    
 }

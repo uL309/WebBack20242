@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.*;
 
 
 @Repository
-public interface usuarioRepositorio extends JpaRepository<Usuario, Integer> {}
+public interface usuarioRepositorio extends JpaRepository<Usuario, Integer> {
+
+    Usuario findByUsername(String username);}
