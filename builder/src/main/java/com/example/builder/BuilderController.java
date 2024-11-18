@@ -51,7 +51,7 @@ public class BuilderController {
         logger.info("Usuário pego do serviço");
         logger.info("Usuário: "+user.getName());
         //usar rabbitmq para autenticação
-       
+   
         if(user.getRole().equals("MEI")){
             String url=UriComponentsBuilder.fromHttpUrl("http://mei/mei")
                 .queryParam("icms", param.getIcms())
@@ -99,7 +99,7 @@ public class BuilderController {
         }else{
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Parametros inválidos");
         }
-        
+   
         
     }
     

@@ -7,8 +7,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageConsumer {
 
-    @RabbitListener(queues = {"${queue.name}"})
-    public void receive(@Payload String fileBody) {
-        System.out.println("Message: " + fileBody);
+    @RabbitListener(queues = {"teste"})
+    public String receive(@Payload String fileBody) {
+        return fileBody;
+    }
+
+    @RabbitListener(queues = {"testeid"})
+    public String receiveid(@Payload String fileBody) {
+        return "Message: " + fileBody;
     }
 }

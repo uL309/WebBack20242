@@ -13,4 +13,8 @@ public class QueueSender {
     public void send(String nome_fila, String order) {
         this.rabbitTemplate.convertAndSend(nome_fila, order);
     }
+
+    public void sendLong(String nome_fila, long order) {
+        this.rabbitTemplate.convertAndSend(nome_fila, order);
+    }
 }

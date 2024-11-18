@@ -35,7 +35,7 @@ public class AuthController {
                 jwtDTO.setRole(user.getRole());
                 System.out.println(jwtDTO.getToken());
                 this.queue.send("teste", jwtDTO.getToken());
-            
+                this.queue.sendLong("testeid", jwtDTO.getId());
                 return ResponseEntity.ok(jwtDTO);
 
             }
