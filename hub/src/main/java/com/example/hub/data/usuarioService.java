@@ -26,6 +26,6 @@ public class usuarioService {
     public Usuario buscarPorId(Integer id) {
         return usuarioRepository.findById(id).orElse(null);
     }
-    
+
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -25,6 +26,9 @@ public class BuilderController {
 
     @Autowired
     private UsuarioClient usuarioClient;
+
+    @Autowired
+    private MessageConsumer consumidor;
 
     @Tag(name = "Index", description = "The Builder API index")
     @Operation(summary = "Get a greeting", description = "Get a greeting")
@@ -47,7 +51,7 @@ public class BuilderController {
         logger.info("Usuário pego do serviço");
         logger.info("Usuário: "+user.getName());
         //usar rabbitmq para autenticação
-
+       
         if(user.getRole().equals("MEI")){
             String url=UriComponentsBuilder.fromHttpUrl("http://mei/mei")
                 .queryParam("icms", param.getIcms())
