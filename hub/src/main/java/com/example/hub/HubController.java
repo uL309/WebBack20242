@@ -46,13 +46,12 @@ public class HubController {
         return new ResponseEntity<UsuarioDTO>(usuarioDTO, HttpStatus.CREATED);
     }
 
-    @Transactional
     @PutMapping("/usuario")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UsuarioDTO> atualizar(@Valid @RequestBody UsuarioDTO usuarioDTO) {
         logger.info("Atualizando usuário");
         Usuario usuario = this.modelMapper.map(usuarioDTO, Usuario.class);
-        usuarioService.salvar(usuario);
+        usuarioService.atualizar(usuario);
         return new ResponseEntity<UsuarioDTO>(usuarioDTO, HttpStatus.OK);
     }
 

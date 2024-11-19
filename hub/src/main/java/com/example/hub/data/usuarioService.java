@@ -28,4 +28,12 @@ public class usuarioService {
     }
 
 
+    public Usuario atualizar(Usuario usuario) {
+        if (usuarioRepository.existsById(usuario.getId())) {
+            return usuarioRepository.saveAndFlush(usuario);
+        } else {
+            throw new RuntimeException("Usuário não encontrado");
+        }
+    }
+    
 }

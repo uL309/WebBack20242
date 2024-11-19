@@ -21,15 +21,32 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/usuario").authenticated()
+                        .requestMatchers("/criar", "/login","/h2-console/**","/usuarios/**").permitAll()
                         .anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-                http.headers(headers -> headers.frameOptions().disable());
+                http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
         http.addFilterBefore(new JwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
     @Bean
+    public JwtTokenUtil jwtTokenUtil() {
+        return new JwtTokenUtil();
+    }
+    
+    @Bean
+    public JwtRequestFilter jwtRequestFilter() {
+        return new JwtRequestFilter();
+    }
+
+    @Bean
+    public JwtUserDetailsService jwtUserDetailsService() {
+        return new JwtUserDetailsService();
+    }
+    
+    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
 }
